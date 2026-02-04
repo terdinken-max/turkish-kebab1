@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TERDINKEN | Turkish Kebab</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <style>
+        * { cursor: crosshair !important; }
+        body { margin: 0; padding: 0; background: #000; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; font-family: 'Cinzel Decorative', cursive; position: relative; }
+        .bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://w0.peakpx.com/wallpaper/146/745/wallpaper-miyamoto-musashi-vagabond.jpg') no-repeat center center; background-size: cover; filter: grayscale(100%) brightness(30%); z-index: 1; }
+        #snow-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+        .header-arc { position: absolute; top: 8%; width: 100%; z-index: 999; text-align: center; }
+        .header-arc h2 { font-size: 50px; color: rgba(255, 215, 0, 0.4); letter-spacing: 12px; margin: 0; text-shadow: 0 0 20px #000; }
+        .wooden-sign { z-index: 999; background: rgba(33, 19, 10, 0.9); border: 4px solid #1a0f08; padding: 25px 80px; border-radius: 4px; box-shadow: 0 0 60px #000; transform: rotate(-1deg); text-align: center; transition: 0.2s; }
+        .wooden-sign:hover { animation: shake 0.5s infinite; }
+        .wooden-sign h1 { color: #DAA520; font-family: 'IM Fell English SC', serif; font-size: 85px; margin: 0; letter-spacing: 18px; text-shadow: 4px 4px 0px #000; }
+        .gold-btn { z-index: 999; margin-top: 40px; padding: 15px 50px; background: transparent; color: #DAA520; border: 2px solid #DAA520; cursor: pointer; font-family: 'Cinzel Decorative'; font-size: 20px; transition: 0.3s; }
+        .gold-btn:hover { animation: shake 0.5s infinite; background: #DAA520; color: #000; }
+        .socials { z-index: 999; margin-top: 30px; display: flex; gap: 30px; }
+        .socials a { color: #DAA520; font-size: 38px; text-decoration: none; transition: 0.3s; }
+        .socials a:hover { animation: shake 0.5s infinite; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <canvas id="snow-canvas"></canvas>
+    <audio id="bgMusic" loop><source src="https://archive.org/download/TheStranglersGoldenBrown/The%20Stranglers%20-%20Golden%20Brown.mp3" type="audio/mpeg"></audio>
+    <div class="header-arc"><h2>TURKISH KEBAB</h2></div>
+    <div class="wooden-sign"><h1>KEBAB</h1></div>
+    <button class="gold-btn" onclick="window.open('https://www.youtube.com/watch?v=I-MSviG32kE', '_blank')">ENTER KITCHEN 🔥</button>
+    <div class="socials">
+        <a href="#"><i class="fa-brands fa-discord"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+    <script>
+        document.body.addEventListener('click', () => { document.getElementById('bgMusic').play(); }, { once: true });
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let snowParticles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+        class Snowflake { constructor() { this.reset(); } reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height - canvas.height; this.size = Math.random() * 2 + 1; this.speed = Math.random() * 1.2 + 0.5; this.opacity = Math.random() * 0.5 + 0.3; } update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); } draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); } }
+        for (let i = 0; i < 120; i++) snowParticles.push(new Snowflake());
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); snowParticles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
+    </script>
+</body>
+</html>
